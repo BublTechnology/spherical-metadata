@@ -56,7 +56,6 @@ class FH {
   }
 
   write (data) {
-    // console.log('write')
     if (!this.inited) {
       throw new Error(`${this} must be initialized before calling write`)
     }
@@ -64,7 +63,7 @@ class FH {
     // source offset
     // source length
     // target offset
-    //fs.writeSync(this.fd, data, 0, data.byteLength, this.position)
+    fs.writeSync(this.fd, data, 0, data.byteLength, this.position)
     this.seek(this.position + data.byteLength)
   }
 
