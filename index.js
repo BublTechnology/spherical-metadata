@@ -28,11 +28,9 @@ const spherical_uuid_id = new Buffer([0xff, 0xcc, 0x82, 0x63, 0xf8, 0x55, 0x4a, 
 // XML contents.
 const rdf_prefix = ` xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" `
 
-const spherical_xml_header = `
-    <?xml version="1.0"?>
-    <rdf:SphericalVideo
-      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-      xmlns:GSpherical="http://ns.google.com/videos/1.0/spherical/">`
+const spherical_xml_header = `<?xml version="1.0"?>
+  <rdf:SphericalVideo xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:GSpherical="http://ns.google.com/videos/1.0/spherical/">`
 
 const spherical_xml_contents = (software, projection, sourceCount) => `
   <GSpherical:Spherical>true</GSpherical:Spherical>
@@ -53,8 +51,7 @@ const spherical_xml_contents_crop_format = (w, h, panoWidth, panoHeight, cropped
       <GSpherical:CroppedAreaLeftPixels>${croppedLeft}</GSpherical:CroppedAreaLeftPixels>
       <GSpherical:CroppedAreaTopPixels>${croppedTop}</GSpherical:CroppedAreaTopPixels>`
 
-const spherical_xml_footer = `
-  </rdf:SphericalVideo>`
+const spherical_xml_footer = `</rdf:SphericalVideo>`
 
 const spherical_tags_list = [
     "Spherical",
@@ -178,7 +175,6 @@ const ffmpeg = exists_in_dirs(process.env.PATH.split(':'))('ffmpeg')
 
 const ParseSphericalXML = function (contents) {
 
-  console.log('ParseSphericalXML')
   /*
   """Prints spherical metadata for a set of xml data.
 
@@ -334,7 +330,6 @@ const PrintMpeg4 = function (input_file) {
   })
 }
 
-
 const InjectMpeg4 = function (input_file, output_file, metadata) {
   const in_fh = new FH(input_file)
 
@@ -357,10 +352,6 @@ const InjectMpeg4 = function (input_file, output_file, metadata) {
         throw err
       }
       out_fh.seek(0)
-
-      // return
-
-      // out_fh.seek(0)
       mpeg4_file.save(in_fh, out_fh)
       out_fh.close()
       in_fh.close()
