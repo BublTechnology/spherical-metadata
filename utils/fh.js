@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const fs = require('fs')
 
@@ -10,7 +10,7 @@ class FH {
     this.buffer = null
   }
 
-  init(callback) {
+  init (callback) {
     fs.open(this.file, 'r+', (err, fd) => {
       if (err && typeof callback === 'function') {
         return callback(err)
@@ -24,7 +24,7 @@ class FH {
         this.inited = true
         // this.seek(bytes)
 
-        if(typeof callback === 'function') {
+        if (typeof callback === 'function') {
           callback(null)
         }
         return // callback(new Error(`could not read ${this.file}`))
@@ -38,7 +38,7 @@ class FH {
         this.inited = true
         this.seek(bytes)
 
-        if(typeof callback === 'function') {
+        if (typeof callback === 'function') {
           callback(null)
         }
       })
