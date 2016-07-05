@@ -1,0 +1,9 @@
+machine:
+    node:
+        version: 5.9.1
+dependencies:
+    override:
+        - npm install standard -g
+test:
+    override:
+        - npm run lint
