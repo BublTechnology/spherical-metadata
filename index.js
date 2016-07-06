@@ -4,7 +4,6 @@
 'use strict'
 
 const fs = require('fs')
-const childProcess = require('child_process')
 const path = require('path')
 
 const xmldoc = require('xmldoc')
@@ -138,27 +137,6 @@ const mpeg4AddSpherical = function (mpeg4File, inFh, metadata) {
   return true
 }
 
-const existsInDirs = (dirList) => (target) => () => {
-  let found = false
-
-  for (var i = 0; i < dirList.length; i += 1) {
-    try {
-      // append bin name to every path and check if it exists
-      // .replace(/\/$/,'') removes trailing slash if one exists
-      // so we get 'file/path/targetName' not ''file/path//targetName'
-      if (fs.statSync(`${dirList[i].replace(/\/$/, '')}/${target}`)) {
-        found = true
-      }
-    } catch (e) {
-      // everything's cool, dont even worry about it
-    }
-  }
-
-  return found
-}
-
-const ffmpeg = existsInDirs(process.env.PATH.split(':'))('ffmpeg')
-
 const ParseSphericalXML = function (contents) {
   let parsedXml = null
   try {
@@ -191,61 +169,6 @@ const ParseSphericalXML = function (contents) {
         console.log(`unknown tag ${tag}`)
       }
     })
-  }
-}
-
-const ParseSphericalMKV = function (fileName) {
-  const process = childProcess.spawnSync('ffmpeg', ['-i', fileName])
-  const err = process.stderr.toString('utf-8')
-
-  let index = err.toLowerCase().indexOf('spherical-video')
-
-  if (index === -1) {
-    return
-  }
-
-  const subErr = err.slice(index)
-  const lines = subErr.split('\n')
-  const xmlContents = []
-
-  if (lines[0].indexOf(':') === -1) {
-    return
-  }
-
-  xmlContents.push(lines[0].slice(lines[0].indexOf(':') + 2))
-
-  for (let i = 1; i < lines.length; i += 1) {
-    let line = lines[i]
-    let ind = line.indexOf(':')
-    if (ind === -1) {
-      continue
-    }
-
-    let prefix = line.slice(0, ind)
-    if (prefix.match(/^[ ]*$/)) {
-      xmlContents.push(line.slice(ind + 2))
-    }
-  }
-
-  ParseSphericalXML(xmlContents.join('\n'))
-}
-
-const handleMpeg4orMKV = function (infile, mkvFunc, mpeg4Func) {
-  let matches = infile.match(/[.]{1}[\w]{1,5}$/)
-  if (!matches) {
-    throw new Error(`${infile} must have a file extension`)
-  }
-
-  let extension = matches[0]
-  switch (extension.toLowerCase()) {
-    case '.mkv':
-    case '.webm':
-      return mkvFunc
-    case '.mp4':
-      return mpeg4Func
-    default:
-      console.log(`${extension} files not supported`)
-      return false
   }
 }
 
@@ -331,31 +254,6 @@ const InjectMpeg4 = function (inputFile, outputFile, metadata) {
   })
 }
 
-const PrintMKV = function (inputFile) {
-  if (!ffmpeg()) {
-    return console.log('please install ffmpeg for mkv support')
-  }
-
-  ParseSphericalMKV(inputFile)
-}
-
-const InjectMKV = function (inputFile, outputFile, metadata) {
-  if (!ffmpeg()) {
-    return console.log('please install ffmpeg for mkv support')
-  }
-
-  childProcess.spawn('ffmpeg',
-    ['-i',
-    inputFile,
-    '-metadata:s:v',
-    `spherical-video=${metadata}`,
-    '-c:a',
-    'copy',
-    outputFile])
-
-  ParseSphericalMKV(outputFile)
-}
-
 module.exports.PrintMetadata = function (src) {
   const infile = path.normalize(src)
 
@@ -366,10 +264,7 @@ module.exports.PrintMetadata = function (src) {
     throw e
   }
 
-  let handler = handleMpeg4orMKV(infile, PrintMKV, PrintMpeg4)
-  if (typeof handler === 'function') {
-    handler(infile)
-  }
+  PrintMpeg4(infile)
 }
 
 const InjectMetadata = function (src, dest, metadata) {
@@ -387,10 +282,7 @@ const InjectMetadata = function (src, dest, metadata) {
     throw e
   }
 
-  let handler = handleMpeg4orMKV(infile, InjectMKV, InjectMpeg4)
-  if (typeof handler === 'function') {
-    handler(infile, outfile, metadata)
-  }
+  InjectMpeg4(infile, outfile, metadata)
 }
 
 function validateCropObject (cropObj) {
