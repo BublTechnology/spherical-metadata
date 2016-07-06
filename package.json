@@ -1,6 +1,6 @@
 {
   "name": "spherical-metadata",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,8 @@
   "license": "UNLICENSED",
   "dependencies": {
     "bufferpack": "0.0.6",
+    "commander": "^2.9.0",
     "xmldoc": "^0.5.1"
-  }
+  },
+  "bin": "./bin/cli.js"
 }
