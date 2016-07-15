@@ -1,6 +1,7 @@
 'use strict'
 
 const path = require('path')
+const fs = require('fs')
 
 const Box = require('./lib/box')
 const Mpeg4 = require('./lib/mpeg4')
@@ -169,7 +170,28 @@ module.exports.readMetadata = function (src) {
   })
 }
 
+function validateOrCreate (filePath) {
+  return new Promise((resolve, reject) => {
+    fs.open(filePath, 'w+', (openErr, fd) => {
+      if (openErr) {
+        reject(openErr)
+      } else {
+        fs.close(fd, (closeErr) => {
+          if (closeErr) {
+            reject(closeErr)
+          } else {
+            resolve()
+          }
+        })
+      }
+    })
+  })
+}
+
 module.exports.injectMetadata = function (opts) {
   const generatedXML = spherical.configToXML(opts)
-  return injectMpeg4Metadata(opts.source, opts.destination, generatedXML)
+  return validateOrCreate(opts.destination)
+  .then(() => {
+    return injectMpeg4Metadata(opts.source, opts.destination, generatedXML)
+  })
 }
