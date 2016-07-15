@@ -94,6 +94,9 @@
 
     sphericalMetadata.injectMetadata(opts).then(() => {
       console.log('Metadata Injection Complete')
+    }, (err) => {
+      console.log('Error occurred during metadata injection')
+      console.log(err)
     })
   } else {
     if (!firstFileArg) {
