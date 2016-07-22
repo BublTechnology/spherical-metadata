@@ -50,6 +50,11 @@ function configToXML (config) {
 function xmlToConfig (xmlData) {
   let parsedXml = null
   let configObj = {}
+
+  if (!xmlData || xmlData === '') {
+    return configObj
+  }
+
   try {
     parsedXml = new xmldoc.XmlDocument(xmlData)
   } catch (e) {
