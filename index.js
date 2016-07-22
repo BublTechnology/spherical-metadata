@@ -83,6 +83,7 @@ function parseSphericalMpeg4 (mpeg4File, fh) {
       fh: file handle, file handle for uncached file contents.
   */
   let trackNum = 0
+  let contents = ''
   for (let i = 0; i < mpeg4File.moovBox.contents.length; i += 1) {
     let element = mpeg4File.moovBox.contents[i]
     if (element.name === CONSTANTS.TAG_TRAK) {
@@ -100,7 +101,6 @@ function parseSphericalMpeg4 (mpeg4File, fh) {
           }
 
           if (subElementId.toString('hex') === SPHERICAL_UUID_ID.toString('hex')) {
-            let contents
             if (subElement.contents) {
               contents = subElement.contents.slice(16).toString('utf-8')
             } else {
@@ -113,6 +113,7 @@ function parseSphericalMpeg4 (mpeg4File, fh) {
       }
     }
   }
+  return contents
 }
 
 function injectMpeg4Metadata (inputFile, outputFile, metadata) {
@@ -165,8 +166,8 @@ function extractMetadata (src) {
 }
 
 module.exports.readMetadata = function (src) {
-  return extractMetadata(src).then((xmlData) => {
-    return spherical.xmlToConfig(xmlData)
+  return new Promise((resolve, reject) => {
+    return extractMetadata(src).then(spherical.xmlToConfig, reject).then(resolve, reject)
   })
 }
 

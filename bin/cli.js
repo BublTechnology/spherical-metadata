@@ -109,6 +109,7 @@
     otherFileArgs.forEach((file) => {
       sphericalMetadata.readMetadata(file).then((xmlData) => {
         console.log(xmlData)
+        console.log('Successfully Read Metadata from ', file)
       })
     })
   }
