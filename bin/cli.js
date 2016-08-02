@@ -4,6 +4,7 @@
   'use strict'
   const sphericalMetadata = require('../index')
   const program = require('commander')
+  const validateCropObject = require('../utils/validateCropObject')
 
   const NO_CROP = true
   const CROP_HELP = 'Must specify 6 integers in the form of "w:h:f_w:f_h:x:y"' +
@@ -13,37 +14,14 @@
 
   let firstFileArg, otherFileArgs
 
-  function validateCropObject () {
-    if (program.crop === NO_CROP) {
-      return false
-    } else {
-      let cropVals = program.crop.split(':')
-      let cropObj = {
-        CroppedAreaImageWidthPixels: cropVals[0],
-        CroppedAreaImageHeightPixels: cropVals[1],
-        FullPanoWidthPixels: cropVals[2],
-        FullPanoHeightPixels: cropVals[3],
-        CroppedAreaLeftPixels: cropVals[4],
-        CroppedAreaTopPixels: cropVals[5]
-      }
-
-      if (cropObj.CroppedAreaImageWidthPixels <= 0 ||
-        cropObj.CroppedAreaImageHeightPixels <= 0 ||
-        cropObj.CroppedAreaImageWidthPixels > cropObj.FullPanoWidthPixels ||
-        cropObj.CroppedAreaImageHeightPixels > cropObj.FullPanoHeightPixels) {
-        return false
-      }
-
-      const totalWidth = cropObj.CroppedAreaLeftPixels + cropObj.CroppedAreaImageWidthPixels // cropped_offset_left_pixels + cropped_width_pixels
-      const totalHeight = cropObj.CroppedAreaTopPixels + cropObj.CroppedAreaImageHeightPixels //
-
-      if (cropObj.CroppedAreaLeftPixels < 0 ||
-        cropObj.CroppedAreaTopPixels < 0 ||
-        totalWidth > cropObj.FullPanoWidthPixels ||
-        totalHeight > cropObj.FullPanoHeightPixels) {
-        return false
-      }
-      return cropObj
+  function cropObjectFromArray (cropVals) {
+    return {
+      CroppedAreaImageWidthPixels: cropVals[0],
+      CroppedAreaImageHeightPixels: cropVals[1],
+      FullPanoWidthPixels: cropVals[2],
+      FullPanoHeightPixels: cropVals[3],
+      CroppedAreaLeftPixels: cropVals[4],
+      CroppedAreaTopPixels: cropVals[5]
     }
   }
 
@@ -74,7 +52,7 @@
     }
 
     if (program.crop) {
-      let cropObj = validateCropObject()
+      let cropObj = (program.crop === NO_CROP) ? false : validateCropObject(cropObjectFromArray(program.crop.split(':')))
       if (!cropObj) {
         console.log('Invalid crop argument\n' + CROP_HELP)
         return

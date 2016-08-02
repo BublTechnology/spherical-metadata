@@ -22,12 +22,11 @@ class FH {
 
       if (this.size === 0) {
         this.inited = true
-        // this.seek(bytes)
 
         if (typeof callback === 'function') {
           callback(null)
         }
-        return // callback(new Error(`could not read ${this.file}`))
+        return
       }
 
       fs.read(this.fd, this.buffer, 0, this.buffer.length, 0, (err, bytes) => {
