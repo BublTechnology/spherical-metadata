@@ -3,7 +3,8 @@ machine:
         version: 5.9.1
 dependencies:
     override:
-        - npm install standard -g
+        - npm install
+        - npm install standard ava -g
 test:
-    override:
+    pre:
         - npm run lint

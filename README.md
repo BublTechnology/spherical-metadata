@@ -52,7 +52,7 @@ Read the spherical metadata currently in an MP4 file and return an options objec
 
 ```javascript
 const sphericalMetadata = require('spherical-metadata')
-sphericalMetadata.readMetadata(value).then((xmlData) => {
-  console.log(xmlData)
+sphericalMetadata.readMetadata(value).then((data) => {
+  console.log(data)
 })
 ```

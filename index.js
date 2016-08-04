@@ -22,10 +22,10 @@ const SphericalUuid = function (metadata) {
   const uuidLeaf = new Box()
   uuidLeaf.name = CONSTANTS.TAG_UUID
   uuidLeaf.headerSize = 8
-  uuidLeaf.content_size = 0
+  uuidLeaf.contentSize = 0
 
   uuidLeaf.contents = Buffer.concat([SPHERICAL_UUID_ID, new Buffer(metadata)])
-  uuidLeaf.content_size = uuidLeaf.contents.length
+  uuidLeaf.contentSize = uuidLeaf.contents.length
 
   return uuidLeaf
 }
@@ -104,7 +104,7 @@ function parseSphericalMpeg4 (mpeg4File, fh) {
             if (subElement.contents) {
               contents = subElement.contents.slice(16).toString('utf-8')
             } else {
-              contents = fh.read(subElement.content_size - 16).toString('utf-8')
+              contents = fh.read(subElement.contentSize - 16).toString('utf-8')
             }
 
             return contents
