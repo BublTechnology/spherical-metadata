@@ -13,6 +13,15 @@
     "type": "git",
     "url": "https://github.com/BublTechnology/spherical-metadata.git"
   },
+  "keywords": [
+    "Spherical",
+    "Metadata",
+    "360",
+    "Spatial Media",
+    "MP4",
+    "rdf",
+    "xml"
+   ],
   "license": "Apache-2.0",
   "dependencies": {
     "bufferpack": "0.0.6",
@@ -27,6 +36,9 @@
     "cz-conventional-changelog": "^1.1.7",
     "semantic-release": "^4.3.5",
     "shortid": "^2.2.6"
+  },
+  "release": {
+    "analyzeCommits": "./misc/determineReleaseScope"
   },
   "config": {
     "commitizen": {
