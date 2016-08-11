@@ -3,7 +3,7 @@ A port of google's [spatial media tools](https://github.com/google/spatial-media
 
 [![CircleCI](https://circleci.com/gh/BublTechnology/spherical-metadata.svg?style=shield&circle-token=67c42a16a71bb1ff80fad3e089b3e621aac1ad5e)](https://circleci.com/gh/BublTechnology/spherical-metadata)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
-
+[![Build Status](https://travis-ci.org/BublTechnology/spherical-metadata.svg?branch=master)](https://travis-ci.org/BublTechnology/spherical-metadata)
 
 ## Using the library
 
