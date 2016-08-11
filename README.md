@@ -56,3 +56,8 @@ sphericalMetadata.readMetadata(value).then((data) => {
   console.log(data)
 })
 ```
+
+
+### License
+
+[Apache 2.0](https://github.com/BublTechnology/spherical-metadata/blob/master/LICENSE)
