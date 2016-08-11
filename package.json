@@ -1,13 +1,18 @@
 {
-  "name": "spherical-metadata",
-  "version": "0.1.0",
+  "name": "@bubltechnology/spherical-metadata",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "commit": "git-cz",
     "test": "ava tests/",
-    "lint": "standard"
+    "lint": "standard",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "author": "Bubl Technology Ltd.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BublTechnology/spherical-metadata.git"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "bufferpack": "0.0.6",
@@ -18,6 +23,14 @@
   "bin": "./bin/cli.js",
   "devDependencies": {
     "ava": "^0.15.2",
+    "commitizen": "^2.8.5",
+    "cz-conventional-changelog": "^1.1.7",
+    "semantic-release": "^4.3.5",
     "shortid": "^2.2.6"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
