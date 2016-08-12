@@ -5,13 +5,21 @@ A port of google's [spatial media tools](https://github.com/google/spatial-media
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Build Status](https://travis-ci.org/BublTechnology/spherical-metadata.svg?branch=master)](https://travis-ci.org/BublTechnology/spherical-metadata)
 
+[![npm version](https://img.shields.io/npm/v/@bubltechnology/spherical-metadata.svg?style=flat-square)](https://www.npmjs.org/package/@bubltechnology/spherical-metadata)
+
+[![License](http://img.shields.io/:license-apache-blue.svg?style=flat-square)](http://www.apache.org/licenses/LICENSE-2.0.html)
+
 ## Using the library
+
+```bash
+  npm install @bubltechnology/spherical-metadata
+```
 
 ### injectMetadata
 Inject spherical metadata into an MP4 file
 
 ```javascript
-const sphericalMetadata = require('spherical-metadata')
+const sphericalMetadata = require('@bubltechnology/spherical-metadata')
 
 sphericalMetadata.injectMetadata({
   source: 'equi.MP4',
@@ -22,7 +30,7 @@ sphericalMetadata.injectMetadata({
 }).catch((err) => {
   console.log(`Error occurred while injecting metadata: ${err}`)
 }).then(() => {
-  console.log("Metadata injection completed")
+  console.log('Metadata injection completed')
 })
 
 ```
@@ -51,7 +59,7 @@ sphericalMetadata.injectMetadata({
 Read the spherical metadata currently in an MP4 file and return an options object
 
 ```javascript
-const sphericalMetadata = require('spherical-metadata')
+const sphericalMetadata = require('@bubltechnology/spherical-metadata')
 sphericalMetadata.readMetadata(value).then((data) => {
   console.log(data)
 })
