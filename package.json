@@ -21,7 +21,7 @@
     "MP4",
     "rdf",
     "xml"
-   ],
+  ],
   "license": "Apache-2.0",
   "dependencies": {
     "bufferpack": "0.0.6",
@@ -31,6 +31,7 @@
   },
   "bin": "./bin/cli.js",
   "devDependencies": {
+    "@bubltechnology/customizable-commit-analyzer": "^1.0.0",
     "ava": "^0.15.2",
     "commitizen": "^2.8.5",
     "cz-conventional-changelog": "^1.1.7",
@@ -38,7 +39,7 @@
     "shortid": "^2.2.6"
   },
   "release": {
-    "analyzeCommits": "./misc/determineReleaseScope"
+    "analyzeCommits": "@bubltechnology/customizable-commit-analyzer"
   },
   "config": {
     "commitizen": {
